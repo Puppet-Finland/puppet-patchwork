@@ -1,0 +1,10 @@
+{
+  "name": "puppetfinland-patchwork",
+  "version": "0.1.0",
+  "author": "Puppet-Finland team",
+  "license": "BSD license",
+  "summary": "Setup patchwork",
+  "source": "https://github.com/Puppet-Finland/puppet-patchwork.git",
+  "project_page": "https://github.com/Puppet-Finland/puppet-patchwork",
+  "dependencies": [ ]
+}

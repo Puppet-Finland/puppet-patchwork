@@ -20,13 +20,26 @@
 #
 class patchwork
 (
-    Boolean $manage = true
+    Boolean $manage = true,
+    String  $secret_key,
+    String  $default_from_email,
+    String  $db_password
 
 ) inherits patchwork::params
 {
 
 if $manage {
 
-    include ::patchwork::prequisites
+    class { '::patchwork::prequisites':
+        db_password => $db_password,
+    }
+    include ::patchwork::install
+
+    class { '::patchwork::config':
+        secret_key         => $secret_key,
+        default_from_email => $default_from_email,
+        db_password        => $db_password
+    }
+
 }
 }

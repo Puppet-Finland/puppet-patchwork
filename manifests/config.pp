@@ -5,9 +5,10 @@
 #
 class patchwork::config
 (
-    $secret_key,
-    $default_from_email,
-    $db_password
+    String                $secret_key,
+    Variant[String,Array] $allowed_hosts,
+    String                $default_from_email,
+                          $db_password
 )
 {
     # Patchwork will not work without a database
@@ -19,6 +20,11 @@ class patchwork::config
         owner => $::os::params::adminuser,
         group => $::os::params::admingroup,
     }
+
+    # This is required to allow both String and Array parameters as the 
+    # validate_* functions are deprecated
+    include ::stdlib
+    $l_allowed_hosts = flatten(any2array($allowed_hosts))
 
     # Patchwork configuration file
     file { 'production.py':

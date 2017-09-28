@@ -33,6 +33,7 @@ from .base import *  # noqa
 #      print repr("".join([random.choice(chars) for i in range(0,50)]))
 
 SECRET_KEY = '<%= @secret_key %>'
+ALLOWED_HOSTS = [<% @l_allowed_hosts.each do |host| -%>'<%= host %>',<% end -%>]
 
 # Disable XML-RPC and REST
 ENABLE_XMLRPC = False

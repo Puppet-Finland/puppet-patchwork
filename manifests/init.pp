@@ -21,9 +21,10 @@
 class patchwork
 (
     Boolean $manage = true,
-    String  $secret_key,
-    String  $default_from_email,
-    String  $db_password
+            $secret_key,
+            $allowed_hosts = '*',
+            $default_from_email,
+            $db_password
 
 ) inherits patchwork::params
 {
@@ -35,6 +36,7 @@ if $manage {
 
     class { '::patchwork::config':
         secret_key         => $secret_key,
+        allowed_hosts      => $allowed_hosts,
         default_from_email => $default_from_email,
         db_password        => $db_password
     }

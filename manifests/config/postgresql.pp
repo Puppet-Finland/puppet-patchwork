@@ -4,7 +4,7 @@
 #
 class patchwork::config::postgresql
 (
-    $db_password
+    String $db_password
 
 ) inherits patchwork::params
 {

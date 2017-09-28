@@ -38,5 +38,7 @@ if $manage {
         default_from_email => $default_from_email,
         db_password        => $db_password
     }
+
+    include ::patchwork::service
 }
 }

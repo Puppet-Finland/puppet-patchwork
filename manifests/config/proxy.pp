@@ -27,11 +27,9 @@ class patchwork::config::proxy inherits patchwork::params
     # Base nginx setup plus firewall and monit settings
     class { '::nginx':
         manage_config        => false,
-        manage_monit         => true,
-        manage_packetfilter  => true,
+        manage_monit         => false,
+        manage_packetfilter  => false,
         purge_default_config => true,
-        allow_address_ipv4   => 'anyv4',
-        allow_address_ipv6   => 'anyv6',
     }
 
     # Patchwork-specific nginx configuration file

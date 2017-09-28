@@ -21,8 +21,12 @@
 class patchwork
 (
     Boolean $manage = true,
+    Boolean $manage_monit = true,
+    Boolean $manage_packetfilter = true,
             $secret_key,
             $allowed_hosts = '*',
+            $allow_address_ipv4 = 'anyv4',
+            $allow_address_ipv6 = 'anyv6',
             $default_from_email,
             $db_password
 
@@ -42,5 +46,16 @@ if $manage {
     }
 
     include ::patchwork::service
+
+    if $manage_monit {
+        include ::patchwork::monit
+    }
+
+    if $manage_packetfilter {
+        class { '::webserver::packetfilter':
+            allow_address_ipv4 => $allow_address_ipv4,
+            allow_address_ipv6 => $allow_address_ipv6,
+        }
+    }
 }
 }

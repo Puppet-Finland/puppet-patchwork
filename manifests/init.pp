@@ -30,9 +30,7 @@ class patchwork
 
 if $manage {
 
-    class { '::patchwork::prequisites':
-        db_password => $db_password,
-    }
+    include ::patchwork::prequisites
     include ::patchwork::install
 
     class { '::patchwork::config':
@@ -40,6 +38,5 @@ if $manage {
         default_from_email => $default_from_email,
         db_password        => $db_password
     }
-
 }
 }

@@ -9,6 +9,11 @@ class patchwork::config
     $db_password
 )
 {
+    # Patchwork will not work without a database
+    class { '::patchwork::config::postgresql':
+        db_password => $db_password,
+    }
+
     File {
         owner => $::os::params::adminuser,
         group => $::os::params::admingroup,
@@ -41,4 +46,8 @@ class patchwork::config
         path        => '/bin:/usr/bin',
         refreshonly => true,
     }
+
+    # Patchwork is configured so we can setup nginx and uwsgi
+    class { '::patchwork::config::proxy': }
+
 }

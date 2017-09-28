@@ -9,6 +9,37 @@
 # [*manage*]
 #   Whether to manage patchwork using Puppet. Valid values are true (default) 
 #   and false.
+# [*manage_monit*]
+#   Manage (nginx) monit with Puppet. Valid values are true (default) and false.
+# [*manage_packetfilter*]
+#   Manage packet filtering rules with Puppet. Valid values are true (default) 
+#   and false.
+# [*secret_key*]
+#   Secret key for patchwork. Should be a randomly generated string.
+# [*allowed_hosts*]
+#   An array or string of host(s) allowed to connect to Patchwork. Defaults to '*'.
+# [*default_from_email*]
+#   Email address visible in emails patchwork sends. No default value.
+# [*db_password*]
+#   Password for the Postgresql database which patchwork uses.
+# [*imap_server*]
+# [*imap_port*]
+# [*imap_username*]
+# [*imap_password*]
+#   Settings for getmail
+# [*sslcert_basename*]
+# [*sslcert_bundlefile*]
+#   See ::sslcert::set for details
+# [*allow_address_ipv4*]
+#   Allow connections through the firewall from this IPv4 address/subnet. 
+#   Defaults to 'anyv4' (allow any address).
+# [*allow_address_ipv6*]
+#   Allow connections through the firewall from this IPv6 address/subnet. 
+#   Defaults to 'anyv6' (allow any address).
+# [*admin_allow_address_ipv4*]
+#  Allow connections to the administration frontend at /admin from this 
+#  address/subnet. Defaults to '127.0.0.1'. Blocking happens at application 
+#  (nginx) level.
 #
 # == Authors
 #

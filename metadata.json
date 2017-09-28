@@ -1,10 +1,20 @@
 {
   "name": "puppetfinland-patchwork",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "author": "Puppet-Finland team",
   "license": "BSD license",
   "summary": "Setup patchwork",
   "source": "https://github.com/Puppet-Finland/puppet-patchwork.git",
   "project_page": "https://github.com/Puppet-Finland/puppet-patchwork",
-  "dependencies": [ ]
+  "dependencies": [
+    { "name": "puppetfinland/monit", "version_requirement": ">= 1.0.0" },
+    { "name": "puppetfinland/nginx", "version_requirement": ">= 2.0.0" },
+    { "name": "puppetfinland/os", "version_requirement": ">= 1.0.0" },
+    { "name": "puppetfinland/postgresql", "version_requirement": ">= 1.0.0" },
+    { "name": "puppetfinland/sslcert", "version_requirement": ">= 0.1.0" },
+    { "name": "puppetfinland/systemd", "version_requirement": ">= 0.1.2" },
+    { "name": "puppetlabs/git", "version_requirement": ">= 0.4.0" },
+    { "name": "puppetlabs/stdlib", "version_requirement": ">= 4.0.0" },
+    { "name": "puppetlabs/vcsrepo", "version_requirement": ">= 1.5.0" }
+  ]
 }

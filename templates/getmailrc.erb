@@ -1,0 +1,21 @@
+[retriever]
+type = SimpleIMAPSSLRetriever
+server = <%= @imap_server %>
+port = <%= @imap_port %>
+username = <%= @imap_username %>
+password = <%= @imap_password %>
+mailboxes = ALL
+
+[destination]
+# we configure Patchwork as a "mail delivery agent", in that it will
+# handle our mails
+type = MDA_external
+path = /opt/patchwork/patchwork/bin/parsemail.sh
+
+[options]
+# retrieve only new emails
+read_all = false
+# do not add a Delivered-To: header field
+delivered_to = false
+# do not add a Received: header field
+received = false

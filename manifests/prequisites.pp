@@ -23,6 +23,9 @@ class patchwork::prequisites inherits patchwork::params
     $proxy_packages = [ 'nginx-full', 'uwsgi', 'uwsgi-plugin-python3']
     ensure_packages($proxy_packages, {'ensure' => 'present'})
 
+    # Requirements for receiving email
+    ensure_packages('getmail4', {'ensure' => 'present'})
+
     # Requirements for postgresql
     include ::postgresql
     include ::postgresql::install::contrib

@@ -8,6 +8,10 @@ class patchwork::config
     String                $secret_key,
     Variant[String,Array] $allowed_hosts,
     String                $default_from_email,
+                          $imap_server,
+                          $imap_port,
+                          $imap_username,
+                          $imap_password,
                           $sslcert_basename,
                           $sslcert_bundlefile,
                           $db_password,
@@ -65,4 +69,11 @@ class patchwork::config
         admin_allow_address_ipv4 => $admin_allow_address_ipv4,
     }
 
+    # Receive mail locally using getmail
+    class { '::patchwork::config::getmail':
+        imap_server   => $imap_server,
+        imap_port     => $imap_port,
+        imap_username => $imap_username,
+        imap_password => $imap_password,
+    }
 }

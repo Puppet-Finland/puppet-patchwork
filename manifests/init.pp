@@ -25,10 +25,13 @@ class patchwork
     Boolean $manage_packetfilter = true,
             $secret_key,
             $allowed_hosts = '*',
+            $default_from_email,
+            $db_password,
+            $sslcert_basename,
+            $sslcert_bundlefile,
             $allow_address_ipv4 = 'anyv4',
             $allow_address_ipv6 = 'anyv6',
-            $default_from_email,
-            $db_password
+            $admin_allow_address_ipv4 = '127.0.0.1'
 
 ) inherits patchwork::params
 {
@@ -39,10 +42,13 @@ if $manage {
     include ::patchwork::install
 
     class { '::patchwork::config':
-        secret_key         => $secret_key,
-        allowed_hosts      => $allowed_hosts,
-        default_from_email => $default_from_email,
-        db_password        => $db_password
+        secret_key               => $secret_key,
+        allowed_hosts            => $allowed_hosts,
+        default_from_email       => $default_from_email,
+        db_password              => $db_password,
+        sslcert_basename         => $sslcert_basename,
+        sslcert_bundlefile       => $sslcert_bundlefile,
+        admin_allow_address_ipv4 => $admin_allow_address_ipv4,
     }
 
     include ::patchwork::service

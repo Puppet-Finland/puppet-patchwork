@@ -8,8 +8,12 @@ class patchwork::config
     String                $secret_key,
     Variant[String,Array] $allowed_hosts,
     String                $default_from_email,
-                          $db_password
-)
+                          $sslcert_basename,
+                          $sslcert_bundlefile,
+                          $db_password,
+                          $admin_allow_address_ipv4
+
+) inherits patchwork::params
 {
     # Patchwork will not work without a database
     class { '::patchwork::config::postgresql':
@@ -55,6 +59,10 @@ class patchwork::config
     }
 
     # Patchwork is configured so we can setup nginx and uwsgi
-    class { '::patchwork::config::proxy': }
+    class { '::patchwork::config::proxy':
+        sslcert_basename         => $sslcert_basename,
+        sslcert_bundlefile       => $sslcert_bundlefile,
+        admin_allow_address_ipv4 => $admin_allow_address_ipv4,
+    }
 
 }

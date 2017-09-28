@@ -2,7 +2,13 @@
 #
 # This class sets up nginx + uwsgi for proxying patchwork
 #
-class patchwork::config::proxy inherits patchwork::params
+class patchwork::config::proxy
+(
+            $sslcert_basename,
+            $sslcert_bundlefile,
+    String  $admin_allow_address_ipv4
+
+) inherits patchwork::params
 {
 
     File {
@@ -24,6 +30,12 @@ class patchwork::config::proxy inherits patchwork::params
         notify  => Class['::patchwork::service'],
     }
 
+    # Setup SSL certificates
+    sslcert::set { $sslcert_basename:
+        bundlefile => $sslcert_bundlefile,
+        embed_bundle => true,
+    }
+
     # Base nginx setup plus firewall and monit settings
     class { '::nginx':
         manage_config        => false,
@@ -37,7 +49,7 @@ class patchwork::config::proxy inherits patchwork::params
         ensure  => 'present',
         content => template('patchwork/patchwork.conf.erb'),
         mode    => '0644',
-        require => Class['::nginx'],
+        require => [ Class['::nginx'], Sslcert::Set[$sslcert_basename] ],
         notify  => Class['::nginx::service'],
     }
 

@@ -10,6 +10,7 @@ class patchwork::prequisites
 {
     include ::git
 
+    # Basic requirements
     $python_packages = ['python3-dev',
                         'python3-virtualenv',
                         'python3-pip',
@@ -21,6 +22,11 @@ class patchwork::prequisites
     # By using ensure_packages the risk for stepping on toes of other modules is 
     # reduced greatly
     ensure_packages($python_packages, {'ensure' => 'present'})
+
+
+    # Requirements for nginx + uwsgi proxy
+    $proxy_packages = [ 'nginx-full', 'uwsgi', 'uwsgi-plugin-python3']
+    ensure_packages($proxy_packages, {'ensure' => 'present'})
 
     include ::postgresql
     include ::postgresql::install::contrib

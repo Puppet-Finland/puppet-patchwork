@@ -1,6 +1,7 @@
 #
 # == Class: patchwork::config
 #
+# Configure patchwork and its dependencies
 #
 class patchwork::config
 (

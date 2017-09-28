@@ -19,7 +19,6 @@ class patchwork::prequisites inherits patchwork::params
     # reduced greatly
     ensure_packages($python_packages, {'ensure' => 'present'})
 
-
     # Requirements for nginx + uwsgi proxy
     $proxy_packages = [ 'nginx-full', 'uwsgi', 'uwsgi-plugin-python3']
     ensure_packages($proxy_packages, {'ensure' => 'present'})

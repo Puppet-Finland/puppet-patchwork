@@ -1,0 +1,10 @@
+[Unit]
+Description=Getmail for <%= @imap_username %>
+
+[Service]
+User=nobody
+ExecStart=/usr/bin/getmail --getmaildir=/etc/getmail/<%= @imap_username %> --idle INBOX
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

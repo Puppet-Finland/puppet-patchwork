@@ -90,7 +90,9 @@ if $manage {
         admin_allow_address_ipv4 => $admin_allow_address_ipv4,
     }
 
-    include ::patchwork::service
+    class { '::patchwork::service':
+        imap_username => $imap_username,
+    }
 
     if $manage_monit {
         include ::patchwork::monit

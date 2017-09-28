@@ -3,8 +3,12 @@
 #
 # Manage the patchwork service
 #
-class patchwork::service inherits patchwork::params {
+class patchwork::service
+(
+    $imap_username
 
+) inherits patchwork::params
+{
     # This class handles "systemctl daemon-reload"
     include ::systemd::service
 
@@ -14,23 +18,37 @@ class patchwork::service inherits patchwork::params {
         require => Class['::patchwork::prequisites'],
     }
 
-    # Setup a systemd unit file for uwsgi
-    file { '/etc/systemd/system/uwsgi.service':
+    File {
         ensure  => 'present',
-        content => template('patchwork/uwsgi.service.erb'),
         owner   => $::os::params::adminuser,
         group   => $::os::params::admingroup,
         mode    => '0644',
+    }
+
+    # Setup a systemd unit file for uwsgi
+    file { '/etc/systemd/system/uwsgi.service':
+        content => template('patchwork/uwsgi.service.erb'),
         require => Class['::patchwork::config::proxy'],
         notify  => [ Class['::systemd::service'], Service['uwsgi'] ],
     }
 
-    # Ensure that uwsgi is running
-    service { 'uwsgi':
+    # Setup a systemd unit file for getmail
+    file { '/etc/systemd/system/getmail.service':
+        content => template('patchwork/getmail.service.erb'),
+        notify  => [ Class['::systemd::service'], Service['getmail'] ],
+    }
+
+    # Ensure that uwsgi and getmail are running
+    Service {
         ensure  => 'running',
         enable  => true,
+    }
+
+    service { 'uwsgi':
         require => File['/etc/systemd/system/uwsgi.service'],
     }
 
-
+    service { 'getmail':
+        require => File['/etc/systemd/system/getmail.service'],
+    }
 }

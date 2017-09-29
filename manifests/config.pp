@@ -8,6 +8,7 @@ class patchwork::config
     String                $secret_key,
     Variant[String,Array] $allowed_hosts,
     String                $default_from_email,
+    Hash[String,String]   $admins,
                           $imap_server,
                           $imap_port,
                           $imap_username,

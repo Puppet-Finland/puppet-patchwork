@@ -20,6 +20,8 @@
 #   An array or string of host(s) allowed to connect to Patchwork. Defaults to '*'.
 # [*default_from_email*]
 #   Email address visible in emails patchwork sends. No default value.
+# [*admins*]
+#   Admins of this patchwork instance as a hash in format { 'name' => 'email' }
 # [*db_password*]
 #   Password for the Postgresql database which patchwork uses.
 # [*imap_server*]
@@ -57,6 +59,7 @@ class patchwork
             $secret_key,
             $allowed_hosts = '*',
             $default_from_email,
+            $admins,
             $db_password,
             $imap_server,
             $imap_port,
@@ -80,6 +83,7 @@ if $manage {
         secret_key               => $secret_key,
         allowed_hosts            => $allowed_hosts,
         default_from_email       => $default_from_email,
+        admins                   => $admins,
         db_password              => $db_password,
         imap_server              => $imap_server,
         imap_port                => $imap_port,

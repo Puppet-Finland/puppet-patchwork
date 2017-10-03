@@ -43,6 +43,22 @@ class patchwork::config
         notify  => Exec['patchwork manage.py'],
     }
 
+    # Force use of Python 3 in manage.py 
+    file_line { 'manage.py-python3':
+        ensure => 'present',
+        path   => '/opt/patchwork/manage.py',
+        line   => '#!/usr/bin/env python3',
+        match  => '^#!/usr/bin/env python$',
+    }
+
+    # Force use of Python 3 in parsemail.sh
+    file_line { 'parsemail.sh-python':
+        ensure => 'present',
+        path   => '/opt/patchwork/patchwork/bin/parsemail.sh',
+        line   => '    PW_PYTHON=python3',
+        match  => '^    PW_PYTHON=python2$',
+    }
+
     # Fix bug in patchwork packaging on Ubuntu 16.04 which prevents "python3 
     # manage.py collectstatic" from working
     file { '/usr/lib/python3/dist-packages/rest_framework/static/rest_framework/img/grid.png':

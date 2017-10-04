@@ -53,6 +53,8 @@ DEFAULT_FROM_EMAIL = '<%= @default_from_email %>'
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
 NOTIFICATION_FROM_EMAIL = DEFAULT_FROM_EMAIL
 
+EMAIL_SUBJECT_PREFIX = '[Patchwork] '
+
 ADMINS = (
     <% @admins.each_pair do |name, email| -%>
     ('<%= name %>', '<%= email %>'),

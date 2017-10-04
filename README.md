@@ -27,3 +27,9 @@ Adding support for other *NIX-style operating systems should be fairly
 straightforward.
 
 For details see [params.pp](manifests/params.pp).
+
+# TODO
+
+* Automatically load postgresql grants
+* Make the module less Ubuntu-specific
+* Allow defining the installation directory (hardcoded to /opt/patchwork)

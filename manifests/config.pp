@@ -13,6 +13,7 @@ class patchwork::config
                           $imap_port,
                           $imap_username,
                           $imap_password,
+                          $mailboxes,
                           $sslcert_basename,
                           $sslcert_bundlefile,
                           $db_password,
@@ -92,5 +93,6 @@ class patchwork::config
         imap_port     => $imap_port,
         imap_username => $imap_username,
         imap_password => $imap_password,
+        mailboxes     => $mailboxes,
     }
 }

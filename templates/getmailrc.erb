@@ -4,7 +4,12 @@ server = <%= @imap_server %>
 port = <%= @imap_port %>
 username = <%= @imap_username %>
 password = <%= @imap_password %>
+<%# The $all_mailboxes and $l_mailboxes variables are mutually exclusive -%>
+<% if @all_mailboxes.nil? -%>
+mailboxes = (<% @l_mailboxes.each do |mailbox| -%>'<%= mailbox %>',<% end -%>)
+<% else -%>
 mailboxes = ALL
+<% end -%>
 
 [destination]
 # we configure Patchwork as a "mail delivery agent", in that it will

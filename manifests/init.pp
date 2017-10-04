@@ -29,6 +29,9 @@
 # [*imap_username*]
 # [*imap_password*]
 #   Settings for getmail
+# [*mailboxes*]
+#   Mailboxes to fetch using getmail. A string or an array of strings. Default 
+#   to 'ALL'.
 # [*sslcert_basename*]
 # [*sslcert_bundlefile*]
 #   See ::sslcert::set for details
@@ -67,6 +70,7 @@ class patchwork
             $imap_password,
             $sslcert_basename,
             $sslcert_bundlefile,
+            $mailboxes = 'ALL',
             $allow_address_ipv4 = 'anyv4',
             $allow_address_ipv6 = 'anyv6',
             $admin_allow_address_ipv4 = '127.0.0.1'
@@ -89,6 +93,7 @@ if $manage {
         imap_port                => $imap_port,
         imap_username            => $imap_username,
         imap_password            => $imap_password,
+        mailboxes                => $mailboxes,
         sslcert_basename         => $sslcert_basename,
         sslcert_bundlefile       => $sslcert_bundlefile,
         admin_allow_address_ipv4 => $admin_allow_address_ipv4,

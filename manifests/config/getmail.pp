@@ -5,13 +5,22 @@
 #
 class patchwork::config::getmail
 (
-    $imap_server,
-    $imap_port,
-    $imap_username,
-    $imap_password
+    String  $imap_server,
+    Integer $imap_port,
+    String  $imap_username,
+    String  $imap_password,
+    Variant[String,Array[String]] $mailboxes
 
 ) inherits patchwork::params
 {
+
+    # Keyword ALL is a special case that can't be a tuple in the resulting 
+    # getmail4 config file
+    if $mailboxes == 'ALL' {
+        $all_mailboxes = true
+    } else {
+        $l_mailboxes = any2array($mailboxes)
+    }
 
     file { '/etc/getmail':
         ensure => 'directory',

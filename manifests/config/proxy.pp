@@ -4,6 +4,8 @@
 #
 class patchwork::config::proxy
 (
+    String  $server_name,
+    Boolean $enable_rest_api,
             $sslcert_basename,
             $sslcert_bundlefile,
     String  $admin_allow_address_ipv4

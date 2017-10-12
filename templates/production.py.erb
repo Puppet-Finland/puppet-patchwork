@@ -37,7 +37,7 @@ ALLOWED_HOSTS = [<% @l_allowed_hosts.each do |host| -%>'<%= host %>',<% end -%>]
 
 # Disable XML-RPC and REST
 ENABLE_XMLRPC = False
-ENABLE_REST_API = True
+ENABLE_REST_API = <%= @l_enable_rest_api %>
 
 # Email
 #

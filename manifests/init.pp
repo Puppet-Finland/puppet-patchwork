@@ -22,6 +22,10 @@
 #   Email address visible in emails patchwork sends. No default value.
 # [*admins*]
 #   Admins of this patchwork instance as a hash in format { 'name' => 'email' }
+# [*enable_rest_api*]
+#   Enable the REST API. Valid values are true and false (default). If set to 
+#   true, then REST API access is allowed from IP/subnet defined by 
+#   $admin_allow_address_ipv4 parameter, below. 
 # [*db_password*]
 #   Password for the Postgresql database which patchwork uses.
 # [*imap_server*]
@@ -32,6 +36,8 @@
 # [*mailboxes*]
 #   Mailboxes to fetch using getmail. A string or an array of strings. Default 
 #   to 'ALL'.
+# [*server_name*]
+#   Nginx server_name. Used for default http -> https redirect.
 # [*sslcert_basename*]
 # [*sslcert_bundlefile*]
 #   See ::sslcert::set for details
@@ -63,11 +69,13 @@ class patchwork
             $allowed_hosts = '*',
             $default_from_email,
             $admins,
+            $enable_rest_api = false,
             $db_password,
             $imap_server,
             $imap_port,
             $imap_username,
             $imap_password,
+            $server_name,
             $sslcert_basename,
             $sslcert_bundlefile,
             $mailboxes = 'ALL',
@@ -88,7 +96,9 @@ if $manage {
         allowed_hosts            => $allowed_hosts,
         default_from_email       => $default_from_email,
         admins                   => $admins,
+        enable_rest_api          => $enable_rest_api,
         db_password              => $db_password,
+        server_name              => $server_name,
         imap_server              => $imap_server,
         imap_port                => $imap_port,
         imap_username            => $imap_username,

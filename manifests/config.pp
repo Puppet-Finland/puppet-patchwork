@@ -9,6 +9,8 @@ class patchwork::config
     Variant[String,Array] $allowed_hosts,
     String                $default_from_email,
     Hash[String,String]   $admins,
+    Boolean               $enable_rest_api,
+                          $server_name,
                           $imap_server,
                           $imap_port,
                           $imap_username,
@@ -31,6 +33,12 @@ class patchwork::config
         group => $::os::params::admingroup,
     }
 
+    # Convert Boolean into correct type of string
+    $l_enable_rest_api = $enable_rest_api ? {
+        true  => 'True',
+        false => 'False',
+    }
+
     # This is required to allow both String and Array parameters as the 
     # validate_* functions are deprecated
     include ::stdlib
@@ -41,7 +49,7 @@ class patchwork::config
         ensure  => 'present',
         path    => '/opt/patchwork/patchwork/settings/production.py',
         content => template('patchwork/production.py.erb'),
-        notify  => Exec['patchwork manage.py'],
+        notify  => [ Exec['patchwork manage.py'], Service['uwsgi'], ]
     }
 
     # Force use of Python 3 in manage.py 
@@ -82,6 +90,8 @@ class patchwork::config
 
     # Patchwork is configured so we can setup nginx and uwsgi
     class { '::patchwork::config::proxy':
+        server_name              => $server_name,
+        enable_rest_api          => $enable_rest_api,
         sslcert_basename         => $sslcert_basename,
         sslcert_bundlefile       => $sslcert_bundlefile,
         admin_allow_address_ipv4 => $admin_allow_address_ipv4,

@@ -37,7 +37,7 @@ server {
     location /api {
         uwsgi_pass unix:/run/uwsgi/patchwork.sock;
 <% if @enable_rest_api -%>
-        allow <%= @admin_allow_address_ipv4 %>;
+        allow <%= @rest_allow_address_ipv4 %>;
 <% end -%>
         deny all;
     }

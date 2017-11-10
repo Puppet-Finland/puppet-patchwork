@@ -8,7 +8,8 @@ class patchwork::config::proxy
     Boolean $enable_rest_api,
             $sslcert_basename,
             $sslcert_bundlefile,
-    String  $admin_allow_address_ipv4
+    String  $admin_allow_address_ipv4,
+    String  $rest_allow_address_ipv4
 
 ) inherits patchwork::params
 {

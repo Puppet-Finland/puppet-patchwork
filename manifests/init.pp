@@ -48,9 +48,13 @@
 #   Allow connections through the firewall from this IPv6 address/subnet. 
 #   Defaults to 'anyv6' (allow any address).
 # [*admin_allow_address_ipv4*]
-#  Allow connections to the administration frontend at /admin from this 
-#  address/subnet. Defaults to '127.0.0.1'. Blocking happens at application 
-#  (nginx) level.
+#   Allow connections to the administration frontend at /admin from this 
+#   address/subnet. Defaults to '127.0.0.1'.  Blocking happens at application 
+#   (nginx) level, so any value that nginx "allow" directive allows is 
+#   considered valid.
+# [*rest_allow_address_ipv4*]
+#   Allow connections to the REST API /api from this address/subnet. Otherwise
+#   this is behaves the same as $admin_allow_address_ipv4.
 #
 # == Authors
 #
@@ -81,7 +85,8 @@ class patchwork
             $mailboxes = 'ALL',
             $allow_address_ipv4 = 'anyv4',
             $allow_address_ipv6 = 'anyv6',
-            $admin_allow_address_ipv4 = '127.0.0.1'
+            $admin_allow_address_ipv4 = '127.0.0.1',
+            $rest_allow_address_ipv4 = '127.0.0.1'
 
 ) inherits patchwork::params
 {
@@ -107,6 +112,7 @@ if $manage {
         sslcert_basename         => $sslcert_basename,
         sslcert_bundlefile       => $sslcert_bundlefile,
         admin_allow_address_ipv4 => $admin_allow_address_ipv4,
+        rest_allow_address_ipv4  => $rest_allow_address_ipv4,
     }
 
     class { '::patchwork::service':

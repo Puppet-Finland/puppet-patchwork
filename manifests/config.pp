@@ -19,7 +19,8 @@ class patchwork::config
                           $sslcert_basename,
                           $sslcert_bundlefile,
                           $db_password,
-                          $admin_allow_address_ipv4
+                          $admin_allow_address_ipv4,
+                          $rest_allow_address_ipv4
 
 ) inherits patchwork::params
 {
@@ -95,6 +96,7 @@ class patchwork::config
         sslcert_basename         => $sslcert_basename,
         sslcert_bundlefile       => $sslcert_bundlefile,
         admin_allow_address_ipv4 => $admin_allow_address_ipv4,
+        rest_allow_address_ipv4  => $rest_allow_address_ipv4,
     }
 
     # Receive mail locally using getmail

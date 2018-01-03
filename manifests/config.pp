@@ -58,7 +58,7 @@ class patchwork::config
         ensure => 'present',
         path   => '/opt/patchwork/manage.py',
         line   => '#!/usr/bin/env python3',
-        match  => '^#!/usr/bin/env python$',
+        match  => '^#!',
     }
 
     # Force use of Python 3 in parsemail.sh
@@ -66,7 +66,7 @@ class patchwork::config
         ensure => 'present',
         path   => '/opt/patchwork/patchwork/bin/parsemail.sh',
         line   => '    PW_PYTHON=python3',
-        match  => '^    PW_PYTHON=python2$',
+        match  => '^\s{4}PW_PYTHON=python.$',
     }
 
     # Fix bug in patchwork packaging on Ubuntu 16.04 which prevents "python3 

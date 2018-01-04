@@ -45,4 +45,12 @@ class patchwork::config::getmail
         mode    => '0644',
         require => File["/etc/getmail/${imap_username}"],
     }
+
+    # We need an empty mboxrd file or getmail will fail to start
+    file { '/var/spool/mail/nobody':
+        ensure => 'present',
+        owner  => 'nobody',
+        group  => 'nogroup',
+        mode   => '0644',
+    }
 }

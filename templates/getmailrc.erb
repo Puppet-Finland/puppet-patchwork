@@ -12,6 +12,18 @@ mailboxes = ALL
 <% end -%>
 
 [destination]
+type = MultiDestination
+destinations = (
+    "[mbox]",
+    "[patchwork]",
+    )
+
+[mbox]
+type = Mboxrd
+path = /var/spool/mail/nobody
+user = nobody
+
+[patchwork]
 # we configure Patchwork as a "mail delivery agent", in that it will
 # handle our mails
 type = MDA_external

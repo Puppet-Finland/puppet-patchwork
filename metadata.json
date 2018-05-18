@@ -2,7 +2,7 @@
   "name": "puppetfinland-patchwork",
   "version": "1.0.0",
   "author": "Puppet-Finland team",
-  "summary": "Setup patchwork",
+  "summary": "Setup patchwork with optional monit and firewall support",
   "license": "BSD-2-Clause",
   "source": "https://github.com/Puppet-Finland/puppet-patchwork.git",
   "project_page": "https://github.com/Puppet-Finland/puppet-patchwork",

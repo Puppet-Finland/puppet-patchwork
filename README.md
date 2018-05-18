@@ -1,32 +1,33 @@
 # patchwork
 
-A Puppet module for managing patchwork
+A Puppet module for installing and configuring patchwork. Includes monit and 
+firewall support.
 
 # Module usage
 
-Install patchwork using Hiera:
+Install patchwork and all its dependencies including commercial SSL 
+certificates:
 
-    classes:
-        - patchwork
+    class { '::patchwork':
+        secret_key               => 'secret',
+        allowed_hosts            => '*',
+        admin_allow_address_ipv4 => '10.0.0.0/8',
+        rest_allow_address_ipv4  => 'all',
+        enable_rest_api          => true,
+        default_from_email       => 'patchwork@example.org',
+        db_password              => 'secret',
+        admins                   => { 'john' => 'john@example.org' },
+        server_name              => 'patchwork.example.org',
+        imap_server              => 'imap.example.org',
+        imap_port                => 993,
+        imap_username            => 'patchwork@example.org',
+        imap_password            => 'secret',
+        mailboxes                => 'Inbox',
+        sslcert_basename         => 'example.org',
+        sslcert_bundlefile       => 'DigiCertCA.crt,
+    }
 
-For details, see
-
-* [Class: patchwork](manifests/init.pp)
-
-# Dependencies
-
-See [metadata.json](metadata.json).
-
-# Operating system support
-
-This module has been tested on
-
-* Ubuntu 16.04
-
-Adding support for other *NIX-style operating systems should be fairly 
-straightforward.
-
-For details see [params.pp](manifests/params.pp).
+For detail see [init.pp](manifests/init.pp).
 
 # TODO
 

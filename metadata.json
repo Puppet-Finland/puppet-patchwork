@@ -2,7 +2,7 @@
   "name": "puppetfinland-patchwork",
   "version": "1.0.0",
   "author": "Puppet-Finland team",
-  "license": "BSD license",
+  "license": "BSD-2-Clause",
   "summary": "Setup patchwork",
   "source": "https://github.com/Puppet-Finland/puppet-patchwork.git",
   "project_page": "https://github.com/Puppet-Finland/puppet-patchwork",

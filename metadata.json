@@ -1,6 +1,6 @@
 {
   "name": "puppetfinland-patchwork",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Puppet-Finland team",
   "summary": "Setup patchwork with optional monit and firewall support",
   "license": "BSD-2-Clause",

@@ -16,6 +16,6 @@ class patchwork::install inherits patchwork::params
         provider => 'git',
         source   => 'git://github.com/getpatchwork/patchwork',
         revision => 'v2.0.0',
-        notify  => Exec['patchwork manage.py'],
+        notify   => Exec['patchwork manage.py'],
     }
 }

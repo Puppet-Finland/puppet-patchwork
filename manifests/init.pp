@@ -66,14 +66,9 @@
 #
 class patchwork
 (
-    Boolean $manage = true,
-    Boolean $manage_monit = true,
-    Boolean $manage_packetfilter = true,
             $secret_key,
-            $allowed_hosts = '*',
             $default_from_email,
             $admins,
-            $enable_rest_api = false,
             $db_password,
             $imap_server,
             $imap_port,
@@ -82,6 +77,11 @@ class patchwork
             $server_name,
             $sslcert_basename,
             $sslcert_bundlefile,
+    Boolean $manage = true,
+    Boolean $manage_monit = true,
+    Boolean $manage_packetfilter = true,
+            $allowed_hosts = '*',
+            $enable_rest_api = false,
             $mailboxes = 'ALL',
             $allow_address_ipv4 = 'anyv4',
             $allow_address_ipv6 = 'anyv6',

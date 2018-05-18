@@ -34,7 +34,7 @@ class patchwork::config::postgresql
 
     # Copy over a fixed grant-all.postgres.sql script
     file { '/opt/patchwork/lib/sql/grant-all.postgres.puppet.sql':
-        ensure => 'present',
+        ensure  => 'present',
         content => template('patchwork/grant-all.postgres.sql.erb'),
         owner   => $::os::params::adminuser,
         group   => $::os::params::admingroup,

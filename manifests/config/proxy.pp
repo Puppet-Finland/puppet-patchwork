@@ -35,7 +35,7 @@ class patchwork::config::proxy
 
     # Setup SSL certificates
     sslcert::set { $sslcert_basename:
-        bundlefile => $sslcert_bundlefile,
+        bundlefile   => $sslcert_bundlefile,
         embed_bundle => true,
     }
 

@@ -2,19 +2,63 @@
   "name": "puppetfinland-patchwork",
   "version": "1.0.0",
   "author": "Puppet-Finland team",
-  "license": "BSD-2-Clause",
   "summary": "Setup patchwork",
+  "license": "BSD-2-Clause",
   "source": "https://github.com/Puppet-Finland/puppet-patchwork.git",
   "project_page": "https://github.com/Puppet-Finland/puppet-patchwork",
   "dependencies": [
-    { "name": "puppetfinland/monit", "version_requirement": ">= 1.0.0" },
-    { "name": "puppetfinland/nginx", "version_requirement": ">= 2.0.0" },
-    { "name": "puppetfinland/os", "version_requirement": ">= 1.0.0" },
-    { "name": "puppetfinland/postgresql", "version_requirement": ">= 1.0.0" },
-    { "name": "puppetfinland/sslcert", "version_requirement": ">= 0.1.0" },
-    { "name": "puppetfinland/systemd", "version_requirement": ">= 0.1.2" },
-    { "name": "puppetlabs/git", "version_requirement": ">= 0.4.0" },
-    { "name": "puppetlabs/stdlib", "version_requirement": ">= 4.0.0" },
-    { "name": "puppetlabs/vcsrepo", "version_requirement": ">= 1.5.0" }
-  ]
+    {
+      "name": "puppetfinland/monit",
+      "version_requirement": ">= 1.0.0"
+    },
+    {
+      "name": "puppetfinland/nginx",
+      "version_requirement": ">= 2.0.0"
+    },
+    {
+      "name": "puppetfinland/os",
+      "version_requirement": ">= 1.0.0"
+    },
+    {
+      "name": "puppetfinland/postgresql",
+      "version_requirement": ">= 1.0.0"
+    },
+    {
+      "name": "puppetfinland/sslcert",
+      "version_requirement": ">= 0.1.0"
+    },
+    {
+      "name": "puppetfinland/systemd",
+      "version_requirement": ">= 0.1.2"
+    },
+    {
+      "name": "puppetlabs/git",
+      "version_requirement": ">= 0.4.0"
+    },
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 4.0.0"
+    },
+    {
+      "name": "puppetlabs/vcsrepo",
+      "version_requirement": ">= 1.5.0"
+    }
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "16.04"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">= 4.7.0 < 6.0.0"
+    }
+  ],
+  "pdk-version": "1.4.1",
+  "template-url": "file:///opt/puppetlabs/pdk/share/cache/pdk-templates.git",
+  "template-ref": "1.4.1-0-g52adbbb"
 }

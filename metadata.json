@@ -21,7 +21,7 @@
     },
     {
       "name": "puppetfinland/postgresql",
-      "version_requirement": ">= 1.0.0"
+      "version_requirement": ">= 2.0.0"
     },
     {
       "name": "puppetfinland/sslcert",
@@ -38,6 +38,10 @@
     {
       "name": "puppetlabs/stdlib",
       "version_requirement": ">= 4.0.0"
+    },
+    {
+      "name": "puppetlabs/postgresql",
+      "version_requirement": ">= 5.0.0"
     },
     {
       "name": "puppetlabs/vcsrepo",

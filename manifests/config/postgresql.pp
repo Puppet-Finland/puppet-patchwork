@@ -9,7 +9,7 @@ class patchwork::config::postgresql
 ) inherits patchwork::params
 {
     Exec {
-        user => $::postgresql::params::daemon_user,
+        user => $::pf_postgresql::params::daemon_user,
         path => '/bin:/usr/bin',
     }
 

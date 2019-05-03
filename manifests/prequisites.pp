@@ -27,6 +27,6 @@ class patchwork::prequisites inherits patchwork::params
     ensure_packages('getmail4', {'ensure' => 'present'})
 
     # Requirements for postgresql
-    include ::postgresql
-    include ::postgresql::install::contrib
+    include ::pf_postgresql
+    include ::pf_postgresql::install::contrib
 }

@@ -9,43 +9,43 @@
   "dependencies": [
     {
       "name": "puppetfinland/monit",
-      "version_requirement": ">= 1.0.0"
+      "version_requirement": ">= 1.0.0 < 2.0.0"
     },
     {
       "name": "puppetfinland/nginx",
-      "version_requirement": ">= 2.0.0"
+      "version_requirement": ">= 2.0.0 < 3.0.0"
     },
     {
       "name": "puppetfinland/os",
-      "version_requirement": ">= 1.0.0"
+      "version_requirement": ">= 1.0.0 < 2.0.0"
     },
     {
       "name": "puppetfinland/pf_postgresql",
-      "version_requirement": ">= 2.0.0"
+      "version_requirement": ">= 1.0.0 < 2.0.0"
     },
     {
       "name": "puppetfinland/sslcert",
-      "version_requirement": ">= 0.1.0"
+      "version_requirement": ">= 0.1.0 < 1.0.0"
     },
     {
-      "name": "puppetfinland/systemd",
-      "version_requirement": ">= 0.1.2"
+      "name": "camptocamp/systemd",
+      "version_requirement": ">= 2.0.0 < 3.0.0"
     },
     {
       "name": "puppetlabs/git",
-      "version_requirement": ">= 0.4.0"
+      "version_requirement": ">= 0.4.0 < 1.0.0"
     },
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 4.0.0"
+      "version_requirement": ">= 4.0.0 < 7.0.0"
     },
     {
       "name": "puppetlabs/postgresql",
-      "version_requirement": ">= 5.0.0"
+      "version_requirement": ">= 5.0.0 < 7.0.0"
     },
     {
       "name": "puppetlabs/vcsrepo",
-      "version_requirement": ">= 1.5.0"
+      "version_requirement": ">= 1.5.0 < 4.0.0"
     }
   ],
   "operatingsystem_support": [

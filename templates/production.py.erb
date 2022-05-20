@@ -10,17 +10,13 @@ Design based on:
     http://www.revsys.com/blog/2014/nov/21/recommended-django-project-layout/
 """
 
-from __future__ import absolute_import
-
 import os
-
-import django
 
 from .base import *  # noqa
 
 #
 # Core settings
-# https://docs.djangoproject.com/en/1.8/ref/settings/#core-settings
+# https://docs.djangoproject.com/en/2.2/ref/settings/#core-settings
 #
 
 # Security
@@ -28,9 +24,15 @@ from .base import *  # noqa
 # You'll need to replace this to a random string. The following python code can
 # be used to generate a secret key:
 #
-#      import string, random
-#      chars = string.letters + string.digits + string.punctuation
-#      print repr("".join([random.choice(chars) for i in range(0,50)]))
+#      import string
+#      try:
+#          import secrets
+#      except ImportError:  # Python < 3.6
+#          import random
+#          secrets = random.SystemRandom()
+#
+#      chars = string.ascii_letters + string.digits + string.punctuation
+#      print("".join([secrets.choice(chars) for i in range(50)]))
 
 SECRET_KEY = '<%= @secret_key %>'
 ALLOWED_HOSTS = [<% @l_allowed_hosts.each do |host| -%>'<%= host %>',<% end -%>]
@@ -42,7 +44,9 @@ ENABLE_REST_API = <%= @l_enable_rest_api %>
 # Email
 #
 # Replace this with your own details
-
+#
+# NOTE: email is handled by getmail, so these defaults are fine
+#
 EMAIL_HOST = os.getenv('EMAIL_HOST', 'localhost')
 EMAIL_PORT = os.getenv('EMAIL_PORT', 25)
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
@@ -65,8 +69,7 @@ ADMINS = (
 #
 # If you're using a postgres database, connecting over a local unix-domain
 # socket, then the following setting should work for you. Otherwise,
-# see https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-
+# see https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -77,15 +80,13 @@ DATABASES = {
         'PORT': '5432',
     },
 }
-
 #
 # Static files settings
-# https://docs.djangoproject.com/en/1.8/ref/settings/#static-files
-# https://docs.djangoproject.com/en/1.8/ref/contrib/staticfiles/#manifeststaticfilesstorage
+# https://docs.djangoproject.com/en/2.2/ref/settings/#static-files
+# https://docs.djangoproject.com/en/2.2/ref/contrib/staticfiles/#manifeststaticfilesstorage
 #
 
-STATIC_ROOT = os.environ.get('STATIC_ROOT', '/var/www/html/patchwork')
+STATIC_ROOT = '<%= @static_root %>'
 
-if django.VERSION >= (1, 7):
-    STATICFILES_STORAGE = \
-        'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+STATICFILES_STORAGE = (
+    'django.contrib.staticfiles.storage.ManifestStaticFilesStorage')

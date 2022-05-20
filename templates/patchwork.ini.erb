@@ -23,8 +23,8 @@ processes = 5
 # "recv() failed (104: Connection reset by peer) while reading response header from upstream"
 buffer-size = 16384
 
-uid = %(user)
-gid = %(group)
+uid = www-data
+gid = www-data
 
 daemonize = /var/log/%(project).log
 socket = /run/uwsgi/%(project).sock

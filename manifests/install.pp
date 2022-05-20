@@ -1,8 +1,11 @@
-# == Class: patchwork::install
 #
-# This class installs patchwork
+# @summary install patchwork
 #
-class patchwork::install inherits patchwork::params
+class patchwork::install
+(
+  String $revision
+
+) inherits patchwork::params
 {
 
     $install_dir = '/opt/patchwork'
@@ -14,8 +17,8 @@ class patchwork::install inherits patchwork::params
     vcsrepo { $install_dir:
         ensure   => 'present',
         provider => 'git',
-        source   => 'git://github.com/getpatchwork/patchwork',
-        revision => 'v2.0.0',
-        notify   => Exec['patchwork manage.py'],
+        source   => 'https://github.com/getpatchwork/patchwork.git',
+        revision => $revision,
+        notify   => Class['::patchwork::manage'],
     }
 }

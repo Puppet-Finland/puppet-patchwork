@@ -1,133 +1,145 @@
-# == Class: patchwork
+# @summary set up Patchwork
 #
-# This class sets up patchwork
-#
-# Currently functionality is limited to installing or removing the package.
-#
-# == Parameters
-#
-# [*manage*]
-#   Whether to manage patchwork using Puppet. Valid values are true (default) 
-#   and false.
-# [*manage_monit*]
-#   Manage (nginx) monit with Puppet. Valid values are true (default) and false.
-# [*manage_packetfilter*]
-#   Manage packet filtering rules with Puppet. Valid values are true (default) 
-#   and false.
-# [*secret_key*]
+# @param manage
+#   Whether to manage patchwork using Puppet.
+# @param manage_datasource
+#   Whether to manage the postgresql server and database
+# @param manage_getmail
+#   Whether to manage getmail
+# @param manage_nginx
+#   Whether to manage nginx
+# @param manage_uwsgi
+#   Whether to manage uwsgi
+# @param static_root
+#   Location of Patchwork's static files.
+# @param secret_key
 #   Secret key for patchwork. Should be a randomly generated string.
-# [*allowed_hosts*]
-#   An array or string of host(s) allowed to connect to Patchwork. Defaults to '*'.
-# [*default_from_email*]
-#   Email address visible in emails patchwork sends. No default value.
-# [*admins*]
+# @param allowed_hosts
+#   An array or string of host(s) allowed to connect to Patchwork.
+# @param default_from_email
+#   Email address visible in emails patchwork sends.
+# @param admins
 #   Admins of this patchwork instance as a hash in format { 'name' => 'email' }
-# [*enable_rest_api*]
-#   Enable the REST API. Valid values are true and false (default). If set to 
-#   true, then REST API access is allowed from IP/subnet defined by 
-#   $admin_allow_address_ipv4 parameter, below. 
-# [*db_password*]
+# @param enable_rest_api
+#   Enable the REST API.
+# @param db_password
 #   Password for the Postgresql database which patchwork uses.
-# [*imap_server*]
-# [*imap_port*]
-# [*imap_username*]
-# [*imap_password*]
-#   Settings for getmail
-# [*mailboxes*]
-#   Mailboxes to fetch using getmail. A string or an array of strings. Default 
-#   to 'ALL'.
-# [*server_name*]
+# @param imap_server
+#   Email host
+# @param imap_port
+#   Email port
+# @param imap_username
+#   Email username
+# @param imap_password
+#   Email password
+# @param mailboxes
+#   Mailboxes to fetch using getmail.
+# @param server_name
 #   Nginx server_name. Used for default http -> https redirect.
-# [*sslcert_basename*]
-# [*sslcert_bundlefile*]
-#   See ::sslcert::set for details
-# [*allow_address_ipv4*]
-#   Allow connections through the firewall from this IPv4 address/subnet. 
-#   Defaults to 'anyv4' (allow any address).
-# [*allow_address_ipv6*]
-#   Allow connections through the firewall from this IPv6 address/subnet. 
-#   Defaults to 'anyv6' (allow any address).
-# [*admin_allow_address_ipv4*]
-#   Allow connections to the administration frontend at /admin from this 
-#   address/subnet. Defaults to '127.0.0.1'.  Blocking happens at application 
-#   (nginx) level, so any value that nginx "allow" directive allows is 
-#   considered valid.
-# [*rest_allow_address_ipv4*]
-#   Allow connections to the REST API /api from this address/subnet. Otherwise
-#   this is behaves the same as $admin_allow_address_ipv4.
-#
-# == Authors
-#
-# Samuli Seppänen <samuli@openvpn.net>
-#
-# == License
-#
-# BSD-license. See file LICENSE for details.
+# @param revision
+#   Version of Patchwork to install. Should match a Git tag or other Git reference.
+#   Example: v3.0.5.
+# @param www_root
+#   Root of the webserver
+# @param static_root
+#   Directory for Patchwork's static files. Assumed to be directly under www_root.
+# @param uwsgi
+#   Patch to Patchwork's uwsgi socket
+# @param admin_allow_address_ipv4
+#   IP address / subnet to allow admin connections from
+# @param rest_allow_address_ipv4
+#   IP address / subnet to allow REST connections from
+# @param in_rspec
+#   A parameter used to work around a function lookup issue
+#   in rspec-puppet. Let this be at the default value.
 #
 class patchwork
 (
-            $secret_key,
-            $default_from_email,
-            $admins,
-            $db_password,
-            $imap_server,
-            $imap_port,
-            $imap_username,
-            $imap_password,
-            $server_name,
-            $sslcert_basename,
-            $sslcert_bundlefile,
-    Boolean $manage = true,
-    Boolean $manage_monit = true,
-    Boolean $manage_packetfilter = true,
-            $allowed_hosts = '*',
-            $enable_rest_api = false,
-            $mailboxes = 'ALL',
-            $allow_address_ipv4 = 'anyv4',
-            $allow_address_ipv6 = 'anyv6',
-            $admin_allow_address_ipv4 = '127.0.0.1',
-            $rest_allow_address_ipv4 = '127.0.0.1'
+  String                                                $secret_key,
+  String                                                $default_from_email,
+  Hash[String,String]                                   $admins,
+  String                                                $db_password,
+  Stdlib::Fqdn                                          $imap_server,
+  Integer                                               $imap_port,
+  String                                                $imap_username,
+  String                                                $imap_password,
+  String                                                $server_name,
+  String                                                $revision,
+  Boolean                                               $manage = true,
+  Boolean                                               $manage_datasource = true,
+  Boolean                                               $manage_getmail = true,
+  Boolean                                               $manage_nginx = true,
+  Boolean                                               $manage_uwsgi = true,
+  Variant[Enum['*'], Stdlib::Fqdn, Array[Stdlib::Fqdn]] $allowed_hosts = '*',
+  Boolean                                               $enable_rest_api = false,
+  Variant[String,Array[String]]                         $mailboxes = 'ALL',
+  Stdlib::Absolutepath                                  $www_root = '/var/www',
+  Stdlib::Absolutepath                                  $static_root = '/var/www/patchwork',
+  String                                                $uwsgi = 'unix:/run/uwsgi/app/patchwork/socket',
+  Stdlib::IP::Address::V4                               $admin_allow_address_ipv4 = '127.0.0.1',
+  Stdlib::IP::Address::V4                               $rest_allow_address_ipv4 = '127.0.0.1',
+  Boolean                                               $in_rspec = false,
 
 ) inherits patchwork::params
 {
 
-if $manage {
+  if $manage {
 
-    include ::patchwork::prequisites
-    include ::patchwork::install
+    include ::patchwork::prerequisites
+
+    class { '::patchwork::install':
+      revision => $revision,
+    }
 
     class { '::patchwork::config':
-        secret_key               => $secret_key,
-        allowed_hosts            => $allowed_hosts,
-        default_from_email       => $default_from_email,
-        admins                   => $admins,
-        enable_rest_api          => $enable_rest_api,
-        db_password              => $db_password,
+      secret_key         => $secret_key,
+      allowed_hosts      => $allowed_hosts,
+      default_from_email => $default_from_email,
+      admins             => $admins,
+      enable_rest_api    => $enable_rest_api,
+      db_password        => $db_password,
+      server_name        => $server_name,
+      static_root        => $static_root,
+    }
+
+    if $manage_datasource {
+      class { '::patchwork::postgresql':
+        db_password => $db_password,
+        in_rspec    => $in_rspec,
+        before      => Class['::patchwork::manage'],
+      }
+    }
+
+    # Run Patchwork's manage.py commands
+    include ::patchwork::manage
+
+    # Receive mail locally using getmail
+    if $manage_getmail {
+      class { '::patchwork::getmail':
+        imap_server   => $imap_server,
+        imap_port     => $imap_port,
+        imap_username => $imap_username,
+        imap_password => $imap_password,
+        mailboxes     => $mailboxes,
+      }
+    }
+
+    # Configure uwsgi
+    if $manage_uwsgi {
+      include ::patchwork::uwsgi
+    }
+
+    # Configure nginx
+    if $manage_nginx {
+      class { '::patchwork::nginx':
         server_name              => $server_name,
-        imap_server              => $imap_server,
-        imap_port                => $imap_port,
-        imap_username            => $imap_username,
-        imap_password            => $imap_password,
-        mailboxes                => $mailboxes,
-        sslcert_basename         => $sslcert_basename,
-        sslcert_bundlefile       => $sslcert_bundlefile,
+        www_root                 => $www_root,
+        static_root              => $static_root,
+        uwsgi                    => $uwsgi,
         admin_allow_address_ipv4 => $admin_allow_address_ipv4,
         rest_allow_address_ipv4  => $rest_allow_address_ipv4,
+        before                   => Class['::patchwork::manage'],
+      }
     }
-
-    class { '::patchwork::service':
-        imap_username => $imap_username,
-    }
-
-    if $manage_monit {
-        include ::patchwork::monit
-    }
-
-    if $manage_packetfilter {
-        class { '::webserver::packetfilter':
-            allow_address_ipv4 => $allow_address_ipv4,
-            allow_address_ipv6 => $allow_address_ipv6,
-        }
-    }
-}
+  }
 }

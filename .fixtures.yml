@@ -1,0 +1,24 @@
+---
+fixtures:
+  forge_modules:
+    apache:
+      repo: "puppetlabs-apache"
+      ref: "7.0.0"
+    apt:
+      repo: "puppetlabs/apt"
+      ref: "8.3.0"
+    concat:
+      repo: "puppetlabs-concat"
+      ref: "7.1.1"
+    nginx:
+      repo: "puppet-nginx"
+      ref: "3.3.0"
+    postgresql:
+      repo: "puppetlabs-postgresql"
+      ref: "8.0.0"
+    stdlib:
+      repo: "puppetlabs-stdlib"
+      ref: "8.1.0"
+    vcsrepo:
+      repo: "puppetlabs-vcsrepo"
+      ref: "5.0.0"

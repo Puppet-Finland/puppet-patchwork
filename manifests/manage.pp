@@ -17,7 +17,7 @@ class patchwork::manage inherits patchwork::params
     ;
     ['patchwork collectstatic']:
       user    => 'root',
-      command => 'python3 manage.py collectstatic',
+      command => 'yes yes | python3 manage.py collectstatic',
       require => Exec['patchwork migrate'],
     ;
     ['patchwork loaddata']:

@@ -79,6 +79,9 @@ class patchwork
   Stdlib::IP::Address::V4                               $admin_allow_address_ipv4 = '127.0.0.1',
   Stdlib::IP::Address::V4                               $rest_allow_address_ipv4 = '127.0.0.1',
   Boolean                                               $in_rspec = false,
+  Boolean                                               $ssl = false,
+  Optional[Stdlib::Absolutepath]                        $ssl_cert = undef,
+  Optional[Stdlib::Absolutepath]                        $ssl_key = undef,
 
 ) inherits patchwork::params
 {
@@ -138,6 +141,9 @@ class patchwork
         uwsgi                    => $uwsgi,
         admin_allow_address_ipv4 => $admin_allow_address_ipv4,
         rest_allow_address_ipv4  => $rest_allow_address_ipv4,
+        ssl                      => $ssl,
+        ssl_cert                 => $ssl_cert,
+        ssl_key                  => $ssl_key,
         before                   => Class['::patchwork::manage'],
       }
     }

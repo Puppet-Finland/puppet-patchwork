@@ -14,6 +14,9 @@ $secret_key               = 'Kp|:Ych*AF^WIg4*<lpb}6T.P4etTI2E)qs.g4uqaSE0V*TPWs'
 $server_name              = 'patchwork.vagrant.example.lan'
 $admin_allow_address_ipv4 = '192.168.59.0/24'
 $rest_allow_address_ipv4  = '192.168.59.0/24'
+$ssl                      = true
+$ssl_cert                 = '/etc/ssl/certs/ssl-cert-snakeoil.pem'
+$ssl_key                  = '/etc/ssl/private/ssl-cert-snakeoil.key'
 
 class { '::patchwork':
   manage_datasource        => true,
@@ -33,4 +36,7 @@ class { '::patchwork':
   mailboxes                => $mailboxes,
   admin_allow_address_ipv4 => $admin_allow_address_ipv4,
   rest_allow_address_ipv4  => $rest_allow_address_ipv4,
+  ssl                      => $ssl,
+  ssl_cert                 => $ssl_cert,
+  ssl_key                  => $ssl_key,
 }

@@ -27,6 +27,16 @@ describe 'patchwork' do
       let(:params) { default_params }
 
       it { is_expected.to compile }
+
+      expected_params = { 'ensure'              => 'present',
+                          'listen_port'         => 80,
+                          'ssl'                 => false,
+                          'ssl_cert'            => nil,
+                          'ssl_key'             => nil,
+                          'www_root'            => '/var/www',
+                          'uwsgi'               => 'unix:/run/uwsgi/app/patchwork/socket' }
+
+      it { is_expected.to contain_nginx__resource__server('patchwork.example.org').with(expected_params) }
     end
 
     context "no datasource on #{os}" do
@@ -55,6 +65,61 @@ describe 'patchwork' do
       let(:params) { default_params.merge({ 'manage_uwsgi' => false }) }
 
       it { is_expected.to compile }
+    end
+
+    context "valid ssl params on #{os}" do
+      let(:facts) { os_facts }
+      let(:params) do
+        default_params.merge({ 'ssl'      => true,
+                               'ssl_cert' => '/etc/ssl/certs/ssl-cert-snakeoil.pem',
+                               'ssl_key'  => '/etc/ssl/private/ssl-cert-snakeoil.key', })
+      end
+
+      it { is_expected.to compile }
+
+      expected_params = { 'ensure'              => 'present',
+                          'listen_port'         => 443,
+                          'ssl'                 => true,
+                          'ssl_cert'            => '/etc/ssl/certs/ssl-cert-snakeoil.pem',
+                          'ssl_key'             => '/etc/ssl/private/ssl-cert-snakeoil.key',
+                          'www_root'            => '/var/www',
+                          'uwsgi'               => 'unix:/run/uwsgi/app/patchwork/socket' }
+
+      it { is_expected.to contain_nginx__resource__server('patchwork.example.org').with(expected_params) }
+    end
+
+    context "missing ssl_cert param on #{os}" do
+      let(:facts) { os_facts }
+      let(:params) do
+        default_params.merge({ 'ssl'     => true,
+                               'ssl_key' => '/etc/ssl/private/ssl-cert-snakeoil.key', })
+      end
+
+      it { is_expected.to compile.and_raise_error(%r{ERROR: must define \$ssl_cert and \$ssl_key when \$ssl = true}) }
+    end
+
+    context "missing ssl_key param on #{os}" do
+      let(:facts) { os_facts }
+      let(:params) do
+        default_params.merge({ 'ssl'      => true,
+                               'ssl_cert' => '/etc/ssl/certs/ssl-cert-snakeoil.pem', })
+      end
+
+      it { is_expected.to compile.and_raise_error(%r{ERROR: must define \$ssl_cert and \$ssl_key when \$ssl = true}) }
+    end
+
+    context "invalid ssl params on #{os}" do
+      let(:facts) { os_facts }
+      let(:params) { default_params.merge({ 'ssl' => true }) }
+
+      it { is_expected.to compile.and_raise_error(%r{ERROR: must define \$ssl_cert and \$ssl_key when \$ssl = true}) }
+    end
+
+    context "invalid ssl params on #{os}" do
+      let(:facts) { os_facts }
+      let(:params) { default_params.merge({ 'ssl' => true }) }
+
+      it { is_expected.to compile.and_raise_error(%r{ERROR: must define \$ssl_cert and \$ssl_key when \$ssl = true}) }
     end
   end
 end

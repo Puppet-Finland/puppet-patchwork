@@ -3,15 +3,29 @@
 #
 class patchwork::nginx
 (
-  Stdlib::Fqdn            $server_name,
-  Stdlib::Absolutepath    $www_root,
-  Stdlib::Absolutepath    $static_root,
-  String                  $uwsgi,
-  Stdlib::IP::Address::V4 $admin_allow_address_ipv4,
-  Stdlib::IP::Address::V4 $rest_allow_address_ipv4,
+  Stdlib::Fqdn                   $server_name,
+  Stdlib::Absolutepath           $www_root,
+  Stdlib::Absolutepath           $static_root,
+  String                         $uwsgi,
+  Stdlib::IP::Address::V4        $admin_allow_address_ipv4,
+  Stdlib::IP::Address::V4        $rest_allow_address_ipv4,
+  Boolean                        $ssl,
+  Optional[Stdlib::Absolutepath] $ssl_cert,
+  Optional[Stdlib::Absolutepath] $ssl_key,
 
 ) inherits patchwork::params
 {
+
+  if $ssl {
+    unless ($ssl_cert and $ssl_key) {
+      fail("ERROR: must define \$ssl_cert and \$ssl_key when \$ssl = true")
+    }
+
+    $listen_port = 443
+  } else {
+    $listen_port = 80
+  }
+
   file {
     default:
       ensure => 'directory',
@@ -30,6 +44,10 @@ class patchwork::nginx
 
   ::nginx::resource::server { $server_name:
     ensure              => 'present',
+    listen_port         => $listen_port,
+    ssl                 => $ssl,
+    ssl_cert            => $ssl_cert,
+    ssl_key             => $ssl_key,
     listen_options      => 'default_server',
     ipv6_enable         => true,
     ipv6_listen_options => 'default_server',
@@ -42,9 +60,11 @@ class patchwork::nginx
 
   ::nginx::resource::location {
     default:
-      ensure => 'present',
-      server => $server_name,
-      uwsgi  => $uwsgi,
+      ensure   => 'present',
+      server   => $server_name,
+      uwsgi    => $uwsgi,
+      ssl      => true,
+      ssl_only => true,
     ;
     ['admin']:
       location            => '/admin',

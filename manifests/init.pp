@@ -52,6 +52,13 @@
 # @param in_rspec
 #   A parameter used to work around a function lookup issue
 #   in rspec-puppet. Let this be at the default value.
+# @param ssl
+#   Whether to enable SSL in nginx. If this is set to true, both ssl_cert and
+#   ssl_key need to be defined as well.
+# @param ssl_cert
+#   Path to the SSL certificate.
+# @param ssl_key
+#   Path the the SSL private key
 #
 class patchwork
 (

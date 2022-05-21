@@ -8,12 +8,24 @@ class patchwork::uwsgi inherits patchwork::params
     ensure => 'present',
   }
 
-  file { [ '/run/uwsgi', '/run/uwsgi/app', '/run/uwsgi/app/patchwork' ]:
-    ensure  => 'directory',
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0755',
-    require => Package['uwsgi'],
+  file {
+    default:
+      ensure => 'directory',
+      owner  => 'root',
+      group  => 'root',
+      mode   => '0755',
+    ;
+    ['/run/uwsgi']:
+      require => Package['uwsgi'],
+    ;
+    ['/run/uwsgi/app']:
+      require => File['/run/uwsgi'],
+    ;
+    ['/run/uwsgi/app/patchwork']:
+      require => File['/run/uwsgi/app'],
+      owner   => 'www-data',
+      group   => 'www-data',
+    ;
   }
 
   file { '/etc/uwsgi/apps-enabled/patchwork.ini':

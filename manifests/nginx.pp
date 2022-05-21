@@ -40,7 +40,9 @@ class patchwork::nginx
     ;
   }
 
-  include ::nginx
+  class { '::nginx':
+    nginx_version => $::patchwork::params::nginx_version,
+  }
 
   ::nginx::resource::server { $server_name:
     ensure              => 'present',

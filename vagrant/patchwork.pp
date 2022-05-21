@@ -1,6 +1,6 @@
 notify { 'Provisioning Patchwork': }
 
-$admins                   = { 'admin' => 'vagrant' }
+$admins                   = { 'admin' => 'admin@vagrant.example.lan' }
 $allowed_hosts            = '*'
 $default_from_email       = 'patchwork@vagrant.example.lan'
 $db_password              = 'vagrant'

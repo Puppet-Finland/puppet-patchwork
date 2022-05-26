@@ -4,6 +4,11 @@ A Puppet module for installing and configuring [Patchwork](http://jk.ozlabs.org/
 By default this module configures all components (patchwork, getmail, nginx, postgresql, uwsgi) required for Patchwork, but each of those can be managed outside of the module
 as well.
 
+# Prerequisites
+
+If you use this module to configure all aspects of Patchwork you need all the
+modules defined in [Puppetfile](Puppetfile).
+
 # Module usage
 
 Example usage from [vagrant/patchwork.pp](vagrant/patchwork.pp):

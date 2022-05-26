@@ -2,7 +2,7 @@
 Description=Getmail for <%= @imap_username %>
 
 [Service]
-User=nobody
+User=getmail
 ExecStart=/usr/bin/getmail --getmaildir=/etc/getmail/<%= @imap_username %> --idle INBOX
 Restart=always
 

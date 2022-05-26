@@ -31,6 +31,4 @@ class patchwork::postgresql
     object_type => 'database',
     require     => Postgresql::Server::Db['patchwork'],
   }
-
-  ::postgresql::server::role { 'nobody': }
 }

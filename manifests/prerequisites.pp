@@ -15,4 +15,8 @@ class patchwork::prerequisites inherits patchwork::params
 
   # Ensure that "python" command is available
   ensure_packages('python-is-python3', {'ensure' => 'present'})
+
+  # POSIX extended ACLs are needed for fine-grained access control to
+  # Patchwork's production.py (config file)
+  ensure_packages('acl', {'ensure' => 'present'})
 }

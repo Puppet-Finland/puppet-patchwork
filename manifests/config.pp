@@ -34,4 +34,15 @@ class patchwork::config
     path    => '/opt/patchwork/patchwork/settings/production.py',
     content => template('patchwork/production.py.erb'),
   }
+
+  # Both www-data and getmail users need to read the config file
+  if $::patchwork::manage_getmail {
+    posix_acl { '/opt/patchwork/patchwork/settings/production.py':
+      action     => set,
+      permission => ['user:getmail:r--'],
+      provider   => posixacl,
+      recursive  => false,
+      require    => [ User['getmail'], File['/opt/patchwork/patchwork/settings/production.py'] ],
+    }
+  }
 }

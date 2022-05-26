@@ -12,6 +12,11 @@ class patchwork::getmail
 ) inherits patchwork::params
 {
 
+  user { 'getmail':
+    ensure     => 'present',
+    managehome => false,
+  }
+
   # Ensure that we don't get any @ in the service name which could confuse systemd
   $username = regsubst($imap_username, '@', '-')
 
@@ -34,29 +39,31 @@ class patchwork::getmail
     mode   => '0755',
   }
 
+  # Getmail needs to be able to write to this directory
   file { "/etc/getmail/${imap_username}":
     ensure  => 'directory',
-    owner   => 'nobody',
-    group   => 'nogroup',
-    mode    => '0755',
-    require => File['/etc/getmail'],
+    owner   => 'root',
+    group   => 'getmail',
+    mode    => '0770',
+    require => [ User['getmail'], File['/etc/getmail'] ],
   }
 
   file { "/etc/getmail/${imap_username}/getmailrc":
     ensure  => 'present',
     content => template('patchwork/getmailrc.erb'),
-    owner   => 'nobody',
-    group   => 'nogroup',
-    mode    => '0644',
-    require => File["/etc/getmail/${imap_username}"],
+    owner   => 'root',
+    group   => 'getmail',
+    mode    => '0640',
+    require => [ User['getmail'], File["/etc/getmail/${imap_username}"] ],
   }
 
   # We need an empty mboxrd file or getmail will fail to start
-  file { '/var/spool/mail/nobody':
-    ensure => 'present',
-    owner  => 'nobody',
-    group  => 'nogroup',
-    mode   => '0644',
+  file { '/var/spool/mail/getmail':
+    ensure  => 'present',
+    owner   => 'getmail',
+    group   => 'getmail',
+    mode    => '0644',
+    require => User['getmail'],
   }
 
   ::systemd::unit_file { "getmail-${username}.service":
@@ -64,5 +71,11 @@ class patchwork::getmail
     enable  => true,
     active  => true,
     content => template('patchwork/getmail.service.erb'),
+  }
+
+  if $::patchwork::manage_datasource {
+    ::postgresql::server::role { 'getmail':
+      require => [ User['getmail'], Class['::postgresql::server'] ],
+    }
   }
 }

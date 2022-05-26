@@ -13,12 +13,18 @@ fixtures:
     nginx:
       repo: "puppet-nginx"
       ref: "3.3.0"
+    posix_acl:
+      repo: "puppet-posix_acl"
+      ref: "2.0.0"
     postgresql:
       repo: "puppetlabs-postgresql"
       ref: "8.0.0"
     stdlib:
       repo: "puppetlabs-stdlib"
       ref: "8.1.0"
+    systemd:
+      repo: "puppet-systemd"
+      ref: "3.9.0"
     vcsrepo:
       repo: "puppetlabs-vcsrepo"
       ref: "5.0.0"

@@ -12,6 +12,9 @@ class patchwork::getmail
 ) inherits patchwork::params
 {
 
+  # Ensure that we don't get any @ in the service name which could confuse systemd
+  $username = regsubst($imap_username, '@', '-')
+
   # Keyword ALL is a special case that can't be a tuple in the resulting 
   # getmail4 config file
   if $mailboxes == 'ALL' {
@@ -54,5 +57,12 @@ class patchwork::getmail
     owner  => 'nobody',
     group  => 'nogroup',
     mode   => '0644',
+  }
+
+  ::systemd::unit_file { "getmail-${username}.service":
+    ensure  => 'present',
+    enable  => true,
+    active  => true,
+    content => template('patchwork/getmail.service.erb'),
   }
 }

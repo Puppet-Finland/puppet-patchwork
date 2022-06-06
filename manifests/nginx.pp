@@ -70,11 +70,13 @@ class patchwork::nginx
     ;
     ['admin']:
       location            => '/admin',
-      location_cfg_append => { 'allow' => $admin_allow_address_ipv4 },
+      location_cfg_append => {'allow' => $admin_allow_address_ipv4,
+                              'deny'  => 'all', },
     ;
     ['api']:
       location            => '/api',
-      location_cfg_append => { 'allow' => $rest_allow_address_ipv4 },
+      location_cfg_append => {'allow' => $rest_allow_address_ipv4,
+                              'deny'  => 'all' },
     ;
     ['static']:
       location            => '/static',

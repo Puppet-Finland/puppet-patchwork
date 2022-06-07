@@ -6,6 +6,7 @@
   "license": "BSD-2-Clause",
   "source": "https://github.com/Puppet-Finland/puppet-patchwork.git",
   "project_page": "https://github.com/Puppet-Finland/puppet-patchwork",
+  "issues_url": "https://github.com/Puppet-Finland/puppet-patchwork/issues",
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",

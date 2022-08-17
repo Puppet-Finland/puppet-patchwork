@@ -46,9 +46,13 @@
 # @param uwsgi
 #   Patch to Patchwork's uwsgi socket
 # @param admin_allow_address_ipv4
-#   IP address / subnet to allow admin connections from
+#   IPv4 address / subnet to allow admin connections from
+# @param admin_allow_address_ipv6
+#   IPv6 address / subnet to allow admin connections from
 # @param rest_allow_address_ipv4
-#   IP address / subnet to allow REST connections from
+#   IPv4 address / subnet to allow REST connections from
+# @param rest_allow_address_ipv6
+#   IPv6 address / subnet to allow REST connections from
 # @param in_rspec
 #   A parameter used to work around a function lookup issue
 #   in rspec-puppet. Let this be at the default value.
@@ -84,7 +88,9 @@ class patchwork
   Stdlib::Absolutepath                                  $static_root = '/var/www/patchwork',
   String                                                $uwsgi = 'unix:/run/uwsgi/app/patchwork/socket',
   Stdlib::IP::Address::V4                               $admin_allow_address_ipv4 = '127.0.0.1',
+  Stdlib::IP::Address::V6                               $admin_allow_address_ipv6 = '::1/128',
   Stdlib::IP::Address::V4                               $rest_allow_address_ipv4 = '127.0.0.1',
+  Stdlib::IP::Address::V6                               $rest_allow_address_ipv6 = '::1/128',
   Boolean                                               $in_rspec = false,
   Boolean                                               $ssl = false,
   Optional[Stdlib::Absolutepath]                        $ssl_cert = undef,
@@ -147,7 +153,9 @@ class patchwork
         static_root              => $static_root,
         uwsgi                    => $uwsgi,
         admin_allow_address_ipv4 => $admin_allow_address_ipv4,
+        admin_allow_address_ipv6 => $admin_allow_address_ipv6,
         rest_allow_address_ipv4  => $rest_allow_address_ipv4,
+        rest_allow_address_ipv6  => $rest_allow_address_ipv6,
         ssl                      => $ssl,
         ssl_cert                 => $ssl_cert,
         ssl_key                  => $ssl_key,

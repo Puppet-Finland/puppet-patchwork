@@ -8,7 +8,9 @@ class patchwork::nginx
   Stdlib::Absolutepath           $static_root,
   String                         $uwsgi,
   Stdlib::IP::Address::V4        $admin_allow_address_ipv4,
+  Stdlib::IP::Address::V6        $admin_allow_address_ipv6,
   Stdlib::IP::Address::V4        $rest_allow_address_ipv4,
+  Stdlib::IP::Address::V6        $rest_allow_address_ipv6,
   Boolean                        $ssl,
   Optional[Stdlib::Absolutepath] $ssl_cert,
   Optional[Stdlib::Absolutepath] $ssl_key,
@@ -70,13 +72,15 @@ class patchwork::nginx
     ;
     ['admin']:
       location            => '/admin',
-      location_cfg_append => {'allow' => $admin_allow_address_ipv4,
-                              'deny'  => 'all', },
+      location_allow      => [$admin_allow_address_ipv4,
+                              $admin_allow_address_ipv6],
+      location_deny       => ['all'],
     ;
     ['api']:
       location            => '/api',
-      location_cfg_append => {'allow' => $rest_allow_address_ipv4,
-                              'deny'  => 'all' },
+      location_allow      => [$rest_allow_address_ipv4,
+                              $rest_allow_address_ipv6],
+      location_deny       => ['all'],
     ;
     ['static']:
       location            => '/static',

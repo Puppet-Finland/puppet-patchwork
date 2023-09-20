@@ -68,10 +68,11 @@ class patchwork::getmail
   }
 
   ::systemd::unit_file { "getmail-${username}.service":
-    ensure  => 'present',
-    enable  => true,
-    active  => true,
-    content => template('patchwork/getmail.service.erb'),
+    ensure    => 'present',
+    enable    => true,
+    active    => true,
+    content   => template('patchwork/getmail.service.erb'),
+    subscribe => [File["/etc/getmail/${imap_username}/getmailrc"]],
   }
 
   if $::patchwork::manage_datasource {

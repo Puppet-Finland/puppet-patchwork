@@ -11,6 +11,8 @@ mailboxes = (<% @l_mailboxes.each do |mailbox| -%>'<%= mailbox %>',<% end -%>)
 mailboxes = ALL
 <% end -%>
 
+<%= @getmailrc_extra %>
+
 [destination]
 type = MultiDestination
 destinations = (

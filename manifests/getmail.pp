@@ -7,7 +7,8 @@ class patchwork::getmail
     Integer                       $imap_port,
     String                        $imap_username,
     String                        $imap_password,
-    Variant[String,Array[String]] $mailboxes
+    Variant[String,Array[String]] $mailboxes,
+    String                        $getmailrc_extra,
 
 ) inherits patchwork::params
 {

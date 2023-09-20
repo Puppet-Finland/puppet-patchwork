@@ -34,6 +34,8 @@
 #   Email password
 # @param mailboxes
 #   Mailboxes to fetch using getmail.
+# @param getmailrc_extra
+#   Extra content to add to the getmailrc (e.g. filters)
 # @param server_name
 #   Nginx server_name. Used for default http -> https redirect.
 # @param revision
@@ -84,6 +86,7 @@ class patchwork
   Variant[Enum['*'], Stdlib::Fqdn, Array[Stdlib::Fqdn]] $allowed_hosts = '*',
   Boolean                                               $enable_rest_api = false,
   Variant[String,Array[String]]                         $mailboxes = 'ALL',
+  String                                                $getmailrc_extra = '',
   Stdlib::Absolutepath                                  $www_root = '/var/www',
   Stdlib::Absolutepath                                  $static_root = '/var/www/patchwork',
   String                                                $uwsgi = 'unix:/run/uwsgi/app/patchwork/socket',
@@ -132,11 +135,12 @@ class patchwork
     # Receive mail locally using getmail
     if $manage_getmail {
       class { '::patchwork::getmail':
-        imap_server   => $imap_server,
-        imap_port     => $imap_port,
-        imap_username => $imap_username,
-        imap_password => $imap_password,
-        mailboxes     => $mailboxes,
+        imap_server     => $imap_server,
+        imap_port       => $imap_port,
+        imap_username   => $imap_username,
+        imap_password   => $imap_password,
+        mailboxes       => $mailboxes,
+        getmailrc_extra => $getmailrc_extra,
       }
     }
 

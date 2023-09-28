@@ -7,7 +7,8 @@ class patchwork::getmail
     Integer                       $imap_port,
     String                        $imap_username,
     String                        $imap_password,
-    Variant[String,Array[String]] $mailboxes
+    Variant[String,Array[String]] $mailboxes,
+    String                        $getmailrc_extra,
 
 ) inherits patchwork::params
 {
@@ -67,10 +68,11 @@ class patchwork::getmail
   }
 
   ::systemd::unit_file { "getmail-${username}.service":
-    ensure  => 'present',
-    enable  => true,
-    active  => true,
-    content => template('patchwork/getmail.service.erb'),
+    ensure    => 'present',
+    enable    => true,
+    active    => true,
+    content   => template('patchwork/getmail.service.erb'),
+    subscribe => [File["/etc/getmail/${imap_username}/getmailrc"]],
   }
 
   if $::patchwork::manage_datasource {

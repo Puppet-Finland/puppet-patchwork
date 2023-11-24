@@ -11,12 +11,12 @@ class patchwork::prerequisites inherits patchwork::params
 
   # By using ensure_packages the risk for stepping on toes of other
   # modules is reduced greatly
-  ensure_packages($python_packages, {'ensure' => 'present'})
+  stdlib::ensure_packages($python_packages, {'ensure' => 'present'})
 
   # Ensure that "python" command is available
-  ensure_packages('python-is-python3', {'ensure' => 'present'})
+  stdlib::ensure_packages('python-is-python3', {'ensure' => 'present'})
 
   # POSIX extended ACLs are needed for fine-grained access control to
   # Patchwork's production.py (config file)
-  ensure_packages('acl', {'ensure' => 'present'})
+  stdlib::ensure_packages('acl', {'ensure' => 'present'})
 }
